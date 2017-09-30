@@ -1,0 +1,140 @@
+\documentclass{scrartcl}
+
+\usepackage{biblatex}
+\bibliography{refs}
+
+\usepackage{tikz-cd}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{listings}
+
+\lstset{ %
+  basicstyle=\ttfamily,
+  breaklines=true,
+  captionpos=b,
+  showspaces=false,
+  showtabs=false,
+  language=Haskell,
+  escapechar=@,
+  deletekeywords={Nothing,Just,False,True,putStrLn,fail,fromJust,lookup,Num,exp,free,snd,String,
+  return,error,otherwise,not,show,read,Eval,Read,readsPrec,print,insert,length,id,try,Left,Right,union,
+  join,Monad,Functor,Either,all,Maybe,mapM},
+}
+
+\usepackage{hyperref}
+\input{../macros.tex}
+
+\title{Category Theory Study Group}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Fourth Session}
+For the fourth session, read 2.3. - 2.8.
+
+\begin{enumerate}
+\item
+  Remember the category of directed graphs and graph homomorphism:
+  The objects are graphs consisting of a set of vertices $V$ and edges $E \subseteq V \times V$.
+  An arrow $f^*: (V,E) \rightarrow (V',E')$ between two graphs is a mapping between the vertices $f:V \rightarrow V'$, such that if $(v_1,v_2) \in E$ then $(f(v_1),f(v_2)) \in E'$.
+  
+  What is an initial/terminal object in this category.
+  How many \emph{points} does the following graph have?
+  \begin{center}
+  \begin{tikzcd}
+    G_1:
+    & v_1 \ar[r] \ar[rd] & v_2 \ar[d] \\
+    &                    & v_3 \ar[loop right]
+  \end{tikzcd}
+  \end{center}
+
+  Prove that the previous graph is not isomorphic to the following graph by selecting a suitable ``test-object'' $X$ and show that the hom-sets have different cardinality, i.e. $|\Hom{\Graphs}{X}{G_1}| \neq |\Hom{\Graphs}{X}{G_2}|$.
+  \begin{center}
+  \begin{tikzcd}
+    G_2:
+    & r_1 \ar[r] & r_2 \ar[d] \\
+    &            & r_3 \ar[loop right] \ar[ul]
+  \end{tikzcd}
+  \end{center}
+
+\item What is the product graph of the following two graphs?
+  \begin{center}
+  \begin{tikzcd}
+    G_1:                       & & G_2:       & \\
+    v_1 \ar[d] \ar[loop right] & & r_1 \ar[r] & r_2 \ar[d] \\
+    v_2                        & &            & r_3 \ar[loop right] \ar[ul]
+  \end{tikzcd}
+  \end{center}
+
+  Consider the following graph
+  \begin{center}
+  \begin{tikzcd}
+    G_3:
+    & s_1 \ar[d] \ar[r] & s_2 \ar[d] \\
+    & s_3 \ar[r]        & s_4 &
+  \end{tikzcd}
+  \end{center}
+  and graph homomorphisms $f: G_3 \rightarrow G_1$ and $g: G_3 \rightarrow G_2$ defined by
+  \[
+    f(x) =
+    \begin{cases}
+      v_1, & x \in \{ s_1, s_2, s_3 \} \\
+      v_2, & x = s_4
+    \end{cases}
+  \]
+  and
+  \[
+    g(x) =
+    \begin{cases}
+      r_1, & x = s_1 \\
+      r_2, & x = s_2 \\
+      r_3, & x \in \{ s_3, s_4 \}.
+    \end{cases}
+  \]
+
+  Use the UMP of the product graph to construct a unique mapping into $G_1 \times G_2$ as in the following diagram:
+  \begin{center}
+  \begin{tikzcd}[row sep=large]
+    & G_3 \ar[dl,"f" above left] \ar[d,dashed,"{\langle f, g \rangle}"] \ar[dr,"g"] & \\
+    G_1 & G_1 \times G_2 \ar[l,"\pi_1" below] \ar[r,"\pi_2" below] & G_2
+  \end{tikzcd}
+  \end{center}
+
+\item
+  Prove the following simple facts about products and terminal objects:
+  \begin{itemize}
+  \item $(A \times 1) \iso A$
+  \item $(1 \times B) \iso B$
+  \item $(A \times B) \times C \iso A \times (B \times C)$
+  \end{itemize}
+  Where have we seen these laws before?
+  Do these propositions also hold for coproducts and initial objects?
+
+  Are products commutative, i.e. $A \times B \iso B \times A$?
+
+\item
+  For any index set $I$, define the product $\prod_{i \in I} X_i$ of an $I$-indexed of objects $(X_i)_{i \in I}$ in a category, by giving a UMP generalizing that for binary products (the case $I = 2$).
+
+  Show that in $\Cat{Sets}$, for any set $X$ the set $X^I$ of all functions $f:I \rightarrow X$ has this UMP, with respect to the ``constant family'' where $X_i = X$ for all $i \in I$, and thus
+  $$
+  X^I \iso \prod_{i \in I} X.
+  $$
+
+\item
+
+  Given a category $\Cat{C}$ with object $A$ and $B$, define the category $\Cat{C}_{A,B}$ to have objects $(X,x_1,x_2)$, where $x_1:X \rightarrow A$, $x_2: X \rightarrow B$, and with arrows $f:(X,x_1,x_2) \rightarrow (Y,y_1,y_2)$ being arrows $f:X \rightarrow Y$ with $y_1 \circ f = x_1$ and $y_2 \circ f = x_2$.
+
+  Show that $\Cat{C}_{A,B}$ has a terminal object just in case $A$ and $B$ have a product in $\Cat{C}$.
+\end{enumerate}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
+
+%  LocalWords:  cardinality
